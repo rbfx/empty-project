@@ -1,0 +1,9 @@
+# CMake generated build files
+/cmake-build-*/
+
+# Ignore generated projects
+build/
+.vscode/
+
+# Ignore temporary files
+/imgui.ini
