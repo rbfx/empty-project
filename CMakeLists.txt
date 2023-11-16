@@ -9,11 +9,20 @@ set (CMAKE_ARCHIVE_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/lib)
 set (CMAKE_LIBRARY_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/bin)
 set (CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/bin)
 
-# Include common build scripts.
-include (${CMAKE_SOURCE_DIR}/../rbfx/CMake/Modules/UrhoCommon.cmake)
+# Example: toggle to switch between SDK and subdirectory build.
+set (REBELFORK_SDK "" CACHE STRING "Path to pre-built SDK")
 
-# Include the Framework.
-add_subdirectory (../rbfx ${CMAKE_BINARY_DIR}/3rdParty/rbfx)
+if ("${REBELFORK_SDK}" STREQUAL "")
+    # Include common build scripts.
+    include (${CMAKE_SOURCE_DIR}/../rbfx/CMake/Modules/UrhoCommon.cmake)
+
+    # Include the Framework to build.
+    add_subdirectory (../rbfx ${CMAKE_BINARY_DIR}/3rdParty/rbfx)
+else ()
+    # Include pre-built SDK
+    set (CMAKE_PREFIX_PATH ${REBELFORK_SDK}/share)
+    find_package(Urho3D REQUIRED)
+endif ()
 
 # Add project source files.
 add_subdirectory (${CMAKE_SOURCE_DIR}/Source)
