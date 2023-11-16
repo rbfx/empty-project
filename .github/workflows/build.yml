@@ -1,0 +1,46 @@
+name: Build
+on:
+  push:
+  pull_request:
+  schedule:
+    - cron: '0 0 * * *'
+
+env:
+  # common settings
+  CMAKE_VERSION: 3.21.x
+  # paths
+  ci_source_dir: ${{ github.workspace }}/source-code
+  ci_build_dir: ${{ github.workspace }}/cmake-build
+
+jobs:
+  Windows:
+    runs-on: windows-2022
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v3
+        with:
+          path: ${{ env.ci_source_dir }}
+          fetch-depth: 1
+
+      - name: Download SDK
+        uses: robinraju/release-downloader@v1.8
+        with:
+          repository: rbfx/rbfx
+          tag: latest
+          fileName: rebelfork-sdk-Windows-msvc-rel-dll-x64-latest.zip
+          extract: true
+
+      - name: Configure
+        run: >
+          cmake
+          -S ${{ env.ci_source_dir }}
+          -B ${{ env.ci_build_dir }}
+          -G "Visual Studio 17 2022"
+          -A x64
+          -DBUILD_SHARED_LIBS=ON
+          -DREBELFORK_SDK=${{ github.workspace }}/SDK
+
+      - name: Build
+        run: |
+          cmake --build ${{ env.ci_build_dir }} --config RelWithDebInfo
