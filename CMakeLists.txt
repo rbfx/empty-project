@@ -19,10 +19,17 @@ if ("${REBELFORK_SDK}" STREQUAL "")
     # Include the Framework to build.
     add_subdirectory (../rbfx ${CMAKE_BINARY_DIR}/3rdParty/rbfx)
 else ()
+    # Include common build scripts.
+    include (${REBELFORK_SDK}/share/CMake/Modules/UrhoCommon.cmake)
+
     # Include pre-built SDK
     set (CMAKE_PREFIX_PATH ${REBELFORK_SDK}/share)
     find_package(Urho3D REQUIRED)
 endif ()
+
+# Add plugins (optional).
+include_directories (${CMAKE_SOURCE_DIR}/Plugins)
+add_subdirectory (${CMAKE_SOURCE_DIR}/Plugins/Core.SamplePlugin)
 
 # Add project source files.
 add_subdirectory (${CMAKE_SOURCE_DIR}/Source)

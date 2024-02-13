@@ -19,6 +19,8 @@
 #include <Urho3D/Resource/ResourceCache.h>
 #include <Urho3D/Scene/Scene.h>
 
+#include <Core.SamplePlugin/SampleComponent.h>
+
 using namespace Urho3D;
 
 class MyApplication : public Application
@@ -70,6 +72,8 @@ void MyApplication::Setup()
 
 void MyApplication::Start()
 {
+    SampleComponent::RegisterObject(context_);
+
     auto cache = GetSubsystem<ResourceCache>();
     auto renderer = GetSubsystem<Renderer>();
 
@@ -92,6 +96,9 @@ void MyApplication::Start()
     StaticModel* geometry = geometryNode_->CreateComponent<StaticModel>();
     geometry->SetModel(cache->GetResource<Model>("Models/Box.mdl"));
     geometry->SetMaterial(cache->GetResource<Material>("Materials/DefaultGrey.xml"));
+    SampleComponent* sampleComponent = geometryNode_->CreateComponent<SampleComponent>();
+    sampleComponent->SetAxis(Vector3::UP);
+    sampleComponent->SetRotationSpeed(10.0f);
 
     // Create light.
     Node* lightNode = scene_->CreateChild("Light");
@@ -113,9 +120,6 @@ void MyApplication::Stop()
 
 void MyApplication::Update(VariantMap& eventData)
 {
-    const float timeStep = eventData[Update::P_TIMESTEP].GetFloat();
-    geometryNode_->Rotate(Quaternion{10 * timeStep, Vector3::UP}, TS_WORLD);
-
     auto input = GetSubsystem<Input>();
     if (input->GetKeyPress(KEY_ESCAPE))
         SendEvent(E_EXITREQUESTED);
