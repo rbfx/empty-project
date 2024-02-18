@@ -1,18 +1,23 @@
 name: Build
 on:
+  # Build on commits pushed.
   push:
+  # Build on pull requests.
   pull_request:
+  # Build on a schedule to keep up with the engine changes.
   schedule:
     - cron: '0 0 * * *'
 
 env:
-  # common settings
+  # Common settings.
   CMAKE_VERSION: 3.21.x
-  # paths
+  # Common paths.
   ci_source_dir: ${{ github.workspace }}/source-code
   ci_build_dir: ${{ github.workspace }}/cmake-build
 
 jobs:
+  # There is single job that builds the project for windows.
+  # There is no deployment, testing or releasing.
   Windows:
     runs-on: windows-2022
 
