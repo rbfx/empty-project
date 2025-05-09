@@ -34,7 +34,7 @@ jobs:
         with:
           repository: rbfx/rbfx
           tag: latest
-          fileName: rebelfork-sdk-Windows-msvc-rel-dll-x64-latest.zip
+          fileName: rebelfork-sdk-Windows-msvc-dll-x64-latest.zip
           extract: true
 
       - name: Configure
