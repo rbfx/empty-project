@@ -9,23 +9,15 @@ set (CMAKE_ARCHIVE_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/lib)
 set (CMAKE_LIBRARY_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/bin)
 set (CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/bin)
 
-# It is possible to use pre-built SDK or build the Framework from source.
-# In your project, you can choose either option or keep both.
-set (REBELFORK_SDK "" CACHE STRING "Path to pre-built SDK")
-if ("${REBELFORK_SDK}" STREQUAL "")
-    # Include common build scripts.
-    include (${CMAKE_SOURCE_DIR}/../rbfx/CMake/Modules/UrhoCommon.cmake)
-
-    # Include the Framework to build.
-    add_subdirectory (../rbfx ${CMAKE_BINARY_DIR}/3rdParty/rbfx)
-else ()
-    # Include common build scripts.
-    include (${REBELFORK_SDK}/share/CMake/Modules/UrhoCommon.cmake)
-
-    # Include pre-built SDK
-    set (CMAKE_PREFIX_PATH ${REBELFORK_SDK}/share)
-    find_package(Urho3D REQUIRED)
-endif ()
+# Engine must be available on CMAKE_PREFIX_PATH:
+# Option 1 - prebuilt SDK:
+#   - Download a prebuilt SDK and extract it somewhere
+#   - Configure with `-DCMAKE_PREFIX_PATH=/path/to/your/sdk -DCMAKE_CONFIGURATION_TYPES="Debug;RelWithDebInfo"`
+#     - CMAKE_CONFIGURATION_TYPES may or may not be necessary, depending on your SDK configuration
+# Option 2 - in-source build:
+#   - Clone https://github.com/rbfx/rbfx somewhere
+#   - Configure with `-DCMAKE_PREFIX_PATH=/path/to/rbfx/CMake`
+find_package(Urho3D REQUIRED)
 
 # Add plugins (optional).
 include_directories (${CMAKE_SOURCE_DIR}/Plugins)
