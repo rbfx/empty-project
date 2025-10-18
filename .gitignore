@@ -1,5 +1,5 @@
 # CMake generated build files
-/cmake-build-*/
+/cmake-build*/
 
 # Ignore generated projects
 build/

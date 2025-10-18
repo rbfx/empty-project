@@ -17,7 +17,7 @@ This option has longer build times but you can easily modify the engine.
 ```
 cd path/to/project
 cmake . ./cmake-build
-cmake --build ./cmake-build -j12
+cmake --build ./cmake-build -j12 -DCMAKE_PREFIX_PATH=../rbfx/CMake
 ```
 
 ## Building the Project with pre-built Framework SDK
@@ -26,11 +26,14 @@ This option has shorter build times but you have to use pre-built version of the
 
 1. Download [pre-built SDK of the Framework](https://github.com/rbfx/rbfx/releases/tag/latest) for your platform and compiler anywhere.
 2. Checkout this repository anywhere.
-3. Configure and build it via CMake. Variable `REBELFORK_SDK` should be set to the folder `SDK` from within the zip archive. Example:
+3. Configure and build it via CMake. Variable `CMAKE_PREFIX_PATH` should be set to the folder `SDK` from within the zip archive. Example:
 
 ```
 cd path/to/project
-cmake . ./cmake-build -DBUILD_SHARED_LIBS=ON -DREBELFORK_SDK=path/to/prebuilt/SDK
+# Windows:
+cmake . ./cmake-build -DBUILD_SHARED_LIBS=ON -DCMAKE_PREFIX_PATH=path/to/prebuilt/SDK/share
+# Unix:
+cmake . ./cmake-build -DBUILD_SHARED_LIBS=ON -DCMAKE_PREFIX_PATH=path/to/prebuilt/SDK
 cmake --build ./cmake-build -j12
 ```
 
