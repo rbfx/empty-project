@@ -4,6 +4,8 @@ on:
   push:
   # Build on pull requests.
   pull_request:
+  # Build manually
+  workflow_dispatch:
   # Build on a schedule to keep up with the engine changes.
   schedule:
     - cron: '0 0 * * *'
