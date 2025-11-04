@@ -33,8 +33,12 @@ jobs:
         with:
           repository: rbfx/rbfx
           tag: latest
-          fileName: rebelfork-sdk-Windows-msvc-dll-x64-latest.zip
-          extract: true
+          fileName: rebelfork-sdk-windows-msvc-x64-dll-latest.7z
+
+      - name: Extract SDK 7z
+        shell: bash
+        working-directory: ${{ github.workspace }}
+        run: 7z x rebelfork-sdk-windows-msvc-x64-dll-latest.7z -y '-o${{ github.workspace }}'
 
       - name: Configure
         run: >
@@ -44,7 +48,7 @@ jobs:
           -G "Visual Studio 17 2022"
           -A x64
           -DBUILD_SHARED_LIBS=ON
-          -DCMAKE_PREFIX_PATH=${{ github.workspace }}/SDK/share
+          -DCMAKE_PREFIX_PATH=${{ github.workspace }}/rebelfork-sdk-windows-msvc-x64-dll-latest/share
 
       - name: Build
         run: |
