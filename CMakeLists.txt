@@ -18,6 +18,7 @@ set (CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/bin)
 #   - Clone https://github.com/rbfx/rbfx somewhere
 #   - Configure with `-DCMAKE_PREFIX_PATH=/path/to/rbfx/CMake`
 find_package(Urho3D REQUIRED)
+find_package(Urho3DNet QUIET)
 
 # Add plugins (optional).
 include_directories (${CMAKE_SOURCE_DIR}/Plugins)
@@ -25,3 +26,7 @@ add_subdirectory (${CMAKE_SOURCE_DIR}/Plugins/Core.SamplePlugin)
 
 # Add project source files.
 add_subdirectory (${CMAKE_SOURCE_DIR}/Source)
+
+if (Urho3DNet_FOUND)
+    rbfx_configure_cmake_props()
+endif ()
